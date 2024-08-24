@@ -5,14 +5,21 @@ import SetupForm from "./SetupForm";
 import Loading from "./Loading";
 import Modal from "./Modal";
 function App() {
-  const { waiting, isLoading, index, correct, questions } = useGlobalContext();
+  const {
+    waiting,
+    isLoading,
+    index,
+    correct,
+    questions,
+    nextQuestion,
+    checkAnswer,
+  } = useGlobalContext();
   if (waiting) {
     return <SetupForm />;
   }
   if (isLoading) {
     return <Loading />;
   }
-  console.log(questions);
 
   const { question, incorrect_answers, correct_answer } = questions[index];
   const answers = [...incorrect_answers, correct_answer];
@@ -31,10 +38,15 @@ function App() {
                 className="answer-btn"
                 key={index}
                 dangerouslySetInnerHTML={{ __html: answer }}
+                onClick={() => {
+                  checkAnswer(correct_answer === answer);
+                }}
               ></button>
             );
           })}
-          <button className="next-question">next question</button>
+          <button className="next-question" onClick={() => nextQuestion()}>
+            next question
+          </button>
         </article>
       </section>
     </main>

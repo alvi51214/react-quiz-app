@@ -49,6 +49,22 @@ const AppProvider = ({ children }) => {
     fetchQuestions(tempUrl);
   }, []);
 
+  const nextQuestion = () => {
+    setIndex((oldIndex) => {
+      let newIndex = oldIndex + 1;
+      return newIndex;
+    });
+  };
+
+  const checkAnswer = (value) => {
+    if (value) {
+      setCorrect((oldState) => oldState + 1);
+      nextQuestion();
+    } else {
+      nextQuestion();
+    }
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -59,6 +75,8 @@ const AppProvider = ({ children }) => {
         isModalOpen,
         index,
         error,
+        nextQuestion,
+        checkAnswer,
       }}
     >
       {children}
