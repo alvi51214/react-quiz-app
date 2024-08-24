@@ -12,7 +12,33 @@ function App() {
   if (isLoading) {
     return <Loading />;
   }
-  return <main>quiz app</main>;
+  console.log(questions);
+
+  const { question, incorrect_answers, correct_answer } = questions[index];
+  const answers = [...incorrect_answers, correct_answer];
+
+  return (
+    <main>
+      <section className="quiz">
+        <p className="correct-answers">
+          correct answers : {correct}/{index}
+        </p>
+        <article className="container">
+          <h2 dangerouslySetInnerHTML={{ __html: question }}></h2>
+          {answers.map((answer, index) => {
+            return (
+              <button
+                className="answer-btn"
+                key={index}
+                dangerouslySetInnerHTML={{ __html: answer }}
+              ></button>
+            );
+          })}
+          <button className="next-question">next question</button>
+        </article>
+      </section>
+    </main>
+  );
 }
 
 export default App;
