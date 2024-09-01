@@ -31,6 +31,7 @@ const AppProvider = ({ children }) => {
 
     if (response) {
       const data = response.data.results;
+
       if (data.length > 0) {
         setQuestions(data);
         setIsLoading(false);
@@ -52,7 +53,10 @@ const AppProvider = ({ children }) => {
   const nextQuestion = () => {
     setIndex((oldIndex) => {
       let newIndex = oldIndex + 1;
-      return newIndex;
+      if (newIndex > questions.length - 1) {
+        openModal();
+        return 0;
+      } else return newIndex;
     });
   };
 
@@ -63,6 +67,16 @@ const AppProvider = ({ children }) => {
     } else {
       nextQuestion();
     }
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setWaiting(true);
+    setCorrect(0);
   };
 
   return (
@@ -77,6 +91,9 @@ const AppProvider = ({ children }) => {
         error,
         nextQuestion,
         checkAnswer,
+        openModal,
+        closeModal,
+        isModalOpen,
       }}
     >
       {children}
